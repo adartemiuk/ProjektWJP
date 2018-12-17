@@ -14,21 +14,25 @@ import javax.swing.JPanel;
 
 public class PanelInfo extends JPanel {
     JButton powrot1;
+    
     public PanelInfo(){
         setLayout(null);
-       // GPars.loadInitialImages();
+        Obrazy.loadInitialImages();
+        wypelnijpanel();
+    }
+    public void wypelnijpanel(){
         JLabel napis = new JLabel("Informacje o grze",JLabel.CENTER);
         napis.setFont(new Font("Noteworthy",Font.BOLD,50));
         napis.setForeground(Color.ORANGE);
         napis.setBounds(0,65,500,100);
         add(napis);
         JLabel tekst = new JLabel("<html>Autor gry: Adam Artemiuk<br>" +
-"Grafika: Adam Artemiuk<br>" +
-"Rozmiar gry: 1024x768<br>" +
-"Środowisko: Java Desktop<br>" +
-"<br>" +
-"Gra Światłem do celu powstała, aby nauczyć podstawowych <br>" +
-"zjawisk z zakresu fizyki, takie jak pochłanianie, odbicie, rozczepienie, itp.</html>");
+        "Grafika: Adam Artemiuk<br>" +
+        "Rozmiar gry: 1024x768<br>" +
+        "Środowisko: Java Desktop<br>" +
+        "<br>" +
+        "Gra Światłem do celu powstała, aby nauczyć podstawowych <br>" +
+        "zjawisk z zakresu fizyki, takie jak pochłanianie, odbicie, rozczepienie, itp.</html>");
         tekst.setFont(new Font("Times New Roman" , Font.PLAIN,35));
         tekst.setForeground(Color.WHITE);
         tekst.setBounds(112, 134, 600, 500);
@@ -40,7 +44,7 @@ public class PanelInfo extends JPanel {
     protected void paintComponent(Graphics gs){
         Graphics2D g=(Graphics2D)gs;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.drawImage(GPars.bgImage, 0, 0, null);
-}
+        g.drawImage(Obrazy.bgImage, 0, 0, null);
     }
+}
 
