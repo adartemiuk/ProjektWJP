@@ -33,6 +33,7 @@ import javax.swing.JPanel;
         g = new GStatus();
         g.resetujpoziom();
         animationloop1(this);
+         dodajpanelgry();
         setLayout(null);
        
       
@@ -49,7 +50,7 @@ import javax.swing.JPanel;
                 PanelGry.time--;
                }
                 p.revalidate();
-                p.dodajpanelgry();
+               
                 p.dodajpanelmenu(g);
               p.dodajpanelinfo(g,p);
               
