@@ -11,14 +11,16 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
-import javafx.scene.shape.Line;
 import javax.swing.JPanel;
 
-public class PanelwGrze extends JPanel implements MouseListener {
+public class PanelwGrze extends JPanel implements MouseListener  {
     boolean prawda;
     public int x,y;
     int i; 
     int k;
+   int przesuniecie;
+   public static int l;
+    int numer;
     GStatus status = new GStatus();
     Lustra[] lustra;
     Laser[] laser;
@@ -32,20 +34,22 @@ public class PanelwGrze extends JPanel implements MouseListener {
             laser[i]=new Laser();
         }
         laser[0].xs=60;
-        laser[0].ys=520;
+        laser[0].ys=525;
         laser[0].xk=1024;
-        laser[0].yk=520;
+        laser[0].yk=525;
        addMouseListener(this);    
     }
    
     @Override
-    public void mouseClicked(MouseEvent e) {   
+    public void mouseClicked(MouseEvent e) {  
         if(e.getButton()==MouseEvent.BUTTON1){ 
-           
+            GStatus.rysuj=true;
             if(e.getY()<=640 && e.getX()<=5 || e.getX()>=1019 || e.getY()<=10 && e.getX()<=1024 || e.getY()>=630 ){
                 if(i<6){
-                    if(e.getClickCount()==1){ 
+                    if(l==1){ 
+                        prawda=true;
                         lustra[i].kat=90;
+                        numer=i;
                         x=e.getX();
                         y=e.getY();
                         if(y<=640 && x<=5 || x>=1019){
@@ -56,35 +60,36 @@ public class PanelwGrze extends JPanel implements MouseListener {
                         }
                         repaint();
                         i++;
-                    }
-                }
-            }
-            if(i<=6){
-                if(e.getClickCount()==2){ 
-                    lustra[i-1].kat=180;
+                     } 
+                    if(l==2){ 
+                    prawda=true;
+                    lustra[i].kat=180;
+                    numer=i;
+                    x=e.getX();
+                    y=e.getY();
                     if(y<=10 && x<=1024 || y>=630){
-                        lustra[i-1].xs=x-30;
-                        lustra[i-1].ys=y; 
-                        lustra[i-1].xk=x+30;
-                        lustra[i-1].yk=y;
+                        lustra[i].xs=x-30;
+                        lustra[i].ys=y; 
+                        lustra[i].xk=x+30;
+                        lustra[i].yk=y;
                     }
                     repaint();
-                }    
-            }   
-        }
-        else if(e.getButton()==MouseEvent.BUTTON3){ 
-            if(e.getY()<=640 && e.getX()<=5 || e.getX()>=1019){
-                if(i<6){
-                    if(e.getClickCount()==1){
+                    i++;
+                }   
+                    if(l==3){
+                        prawda=true;
                         lustra[i].kat=45;
+                        numer=i;
                         x=e.getX();
                         y=e.getY();
                         if(y<=640 && x<=5){
+                            lustra[i].strona=true;
                             lustra[i].xs=x;
                             lustra[i].ys=y-20; 
                             lustra[i].xk=x+40;
                             lustra[i].yk=y+20; 
                         }else if(y<=640 && x>=1019){
+                            lustra[i].strona=false;
                             lustra[i].xs=x;
                             lustra[i].ys=y-20; 
                             lustra[i].xk=x-40;
@@ -92,66 +97,553 @@ public class PanelwGrze extends JPanel implements MouseListener {
                         }
                         repaint();
                         i++;   
-                    }
-                }
-                if(i<=6){
-                    if(e.getClickCount()==2){
-                        lustra[i-1].kat=225;
+                    }    
+                    if(l==5){
+                        prawda=true;
+                        numer=i;
+                        lustra[i].kat=225;
+                        x=e.getX();
+                        y=e.getY();
                         if(y<=640 && x<=5){
-                            lustra[i-1].xs=x;
-                            lustra[i-1].ys=y+20; 
-                            lustra[i-1].xk=x+40;
-                            lustra[i-1].yk=y-20; 
+                            lustra[i].strona=true;
+                            lustra[i].xs=x;
+                            lustra[i].ys=y+20; 
+                            lustra[i].xk=x+40;
+                            lustra[i].yk=y-20; 
                         }else if(y<=640 && x>=1019){
-                            lustra[i-1].xs=x;
-                            lustra[i-1].ys=y+20; 
-                            lustra[i-1].xk=x-40;
-                            lustra[i-1].yk=y-20; 
+                            lustra[i].strona=false;
+                            lustra[i].xs=x;
+                            lustra[i].ys=y+20; 
+                            lustra[i].xk=x-40;
+                            lustra[i].yk=y-20; 
                         }
                         repaint();
+                        i++;
                     }
-                }
-                if(i<=6){
-                    if(e.getClickCount()==3){ 
-                        lustra[i-1].kat=60;
+                    if(l==4){
+                        prawda=true;
+                        numer=i;
+                        lustra[i].kat=60;
+                        x=e.getX();
+                        y=e.getY();
                         if(y<=640 && x<=5){
-                            lustra[i-1].xs=x;
-                            lustra[i-1].ys=y-30; 
-                            lustra[i-1].xk=x+35;
-                            lustra[i-1].yk=y+30; 
+                            lustra[i].strona=true;
+                            lustra[i].xs=x;
+                            lustra[i].ys=y-20; 
+                            lustra[i].xk=x+20;
+                            lustra[i].yk=y+20; 
                         }else if(y<=640 && x>=1019){
-                            lustra[i-1].xs=x;
-                            lustra[i-1].ys=y-30; 
-                            lustra[i-1].xk=x-35;
-                            lustra[i-1].yk=y+30; 
+                            lustra[i].strona=false;
+                            lustra[i].xs=x;
+                            lustra[i].ys=y-20; 
+                            lustra[i].xk=x-20;
+                            lustra[i].yk=y+20; 
                         }
                         repaint();
+                        i++;
                     }  
-                }    
-                if(i<=6){
-                    if(e.getClickCount()==4){ 
-                        lustra[i-1].kat=260;
+                   
+                    if(l==6){
+                        prawda=true;
+                        numer=i;
+                        lustra[i].kat=240;
+                        x=e.getX();
+                        y=e.getY();
                         if(y<=640 && x<=5){
-                            lustra[i-1].xs=x;
-                            lustra[i-1].ys=y+30; 
-                            lustra[i-1].xk=x+35;
-                            lustra[i-1].yk=y-30; 
+                            lustra[i].strona=true;
+                            lustra[i].xs=x;
+                            lustra[i].ys=y+20; 
+                            lustra[i].xk=x+20;
+                            lustra[i].yk=y-20; 
                         }else if(y<=640 && x>=1019){
-                            lustra[i-1].xs=x;
-                            lustra[i-1].ys=y+30; 
-                            lustra[i-1].xk=x-35;
-                            lustra[i-1].yk=y-30; 
+                            lustra[i].strona=false;
+                            lustra[i].xs=x;
+                            lustra[i].ys=y+20; 
+                            lustra[i].xk=x-20;
+                            lustra[i].yk=y-20; 
                         }
                         repaint();
-                        if(i==6) i++;
+                        i++;
                     } 
-                }    
-            }
+                }  
+            } 
         }
+                if(prawda){
+            if(k<7){
+                if(Line2D.linesIntersect(laser[k].xs, laser[k].ys, laser[k].xk, laser[k].yk,
+                lustra[numer].xs, lustra[numer].ys, lustra[numer].xk, lustra[numer].yk)){  
+                    if(lustra[numer].kat==90){
+                        if(laser[k].xs>laser[k].xk && laser[k].ys<laser[k].yk ){
+                           
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                            przesuniecie=p.y-(int)laser[k].ys;
+                            k++;
+                            
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                            
+                            
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=laser[k-1].xs+1024;
+                            laser[k].yk=(p.y+przesuniecie)+643;
+                            
+                            
+                        } else if(laser[k].xs>laser[k].xk && laser[k].ys>laser[k].yk ){
+                            
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                             przesuniecie=p.y-(int)laser[k].ys;
+                                 k++;
+                     
+                           
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=laser[k-1].xs+1024;
+                            laser[k].yk=(p.y+przesuniecie)-643;
+                            
+                        }
+                        else if(laser[k].xs<laser[k].xk && laser[k].ys<laser[k].yk ){
+                            
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                             przesuniecie=p.y-(int)laser[k].ys;
+                                 k++;
+                     
+                           
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=laser[k-1].xs-1024;
+                            laser[k].yk=(p.y+przesuniecie)+643;
+                            
+                        } else if(laser[k].xs<laser[k].xk && laser[k].ys>laser[k].yk ){
+                            
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                            przesuniecie=p.y-(int)laser[k].ys;
+                                 k++;
+                     
+                           
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=laser[k-1].xs-1024;
+                            laser[k].yk=(p.y+przesuniecie)-643;
+                            
+                        }
+                    }  if(lustra[numer].kat==180){
+                        if(laser[k].xs<laser[k].xk && laser[k].ys>laser[k].yk  ){
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                            przesuniecie=p.x-(int)laser[k].xs;
+                            k++;
+                            
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                            
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=(p.x+przesuniecie)+1024;
+                            laser[k].yk=laser[k-1].ys+643;
+                            
+                        }else if(laser[k].xs>laser[k].xk && laser[k].ys>laser[k].yk ){
+                            
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                            przesuniecie=p.x-(int)laser[k].xs;
+                            k++;
+                            
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                           
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=(p.x+przesuniecie)-1024;
+                            laser[k].yk=laser[k-1].ys+643;
+                            
+                        } else if(laser[k].xs<laser[k].xk && laser[k].ys<laser[k].yk ){
+                            
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                            przesuniecie=p.x-(int)laser[k].xs;
+                            k++;
+                            
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                           
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=(p.x+przesuniecie)+1024;
+                            laser[k].yk=laser[k-1].ys-643;
+                            
+                        }   else if(laser[k].xs>laser[k].xk && laser[k].ys<laser[k].yk ){
+                            
+                            lustra[numer].a=liczA(lustra[numer]);
+                            laser[k].a=liczA(laser[k]);
+                            lustra[numer].b=liczB(lustra[numer]);
+                            laser[k].b=liczB(laser[k]);
+                            Point p=new Point();
+                            p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                            przesuniecie=p.x-(int)laser[k].xs;
+                            k++;
+                            
+                            laser[k-1].xk=p.x;
+                            laser[k-1].yk=p.y;
+                           
+                            laser[k].xs=p.x;
+                            laser[k].ys=p.y;
+                            laser[k].xk=(p.x+przesuniecie)-1024;
+                            laser[k].yk=laser[k-1].ys-643;
+                            
+                        }  
+                    }
+                        if(lustra[numer].kat==45){
+                            if(lustra[numer].strona){
+                                if(laser[k].xs-laser[k].xk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                            
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=1024;
+                                    laser[k].yk=p.y;
+                                    
+                                }else if(laser[k].ys-laser[k].yk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                            
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=p.x;
+                                    laser[k].yk=0;
+                                    
+                                }
+                            }else if(!lustra[numer].strona){
+                                if(laser[k].xs-laser[k].xk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=0;
+                                    laser[k].yk=p.y;
+                                    
+                                }else if(laser[k].ys-laser[k].yk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                            
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=p.x;
+                                    laser[k].yk=0;
+                                    
+                                }  
+                            }
+                        }
+                        if(lustra[numer].kat==225){
+                            if(lustra[numer].strona){
+                                if(laser[k].xs-laser[k].xk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=1024;
+                                    laser[k].yk=p.y;
+                                    
+                                } else if(laser[k].ys-laser[k].yk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=p.x;
+                                    laser[k].yk=800;
+                                    
+                                }
+                            } else if(!lustra[numer].strona){
+                                if(laser[k].xs-laser[k].xk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=0;
+                                    laser[k].yk=p.y;
+                                    
+                                }else if(laser[k].ys-laser[k].yk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=p.x;
+                                    laser[k].yk=800;
+                                    
+                                }  
+                            }
+                        }
+                        if(lustra[numer].kat==240){
+                            if(lustra[numer].strona){
+                                if(laser[k].xs>laser[k].xk && laser[k].ys>laser[k].yk ){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=1024;
+                                    laser[k].yk=p.y;
+                                    
+                                }else if(laser[k].ys-laser[k].yk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=1024;
+                                    laser[k].yk=p.y+896;
+                                    
+                                }
+                            } else if(!lustra[numer].strona){
+                                if(laser[k].xs<laser[k].xk && laser[k].ys>laser[k].yk  ){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=0;
+                                    laser[k].yk=p.y;
+                                    
+                                }else if(laser[k].ys-laser[k].yk==0){
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=0;
+                                    laser[k].yk=p.y+896;
+                                   
+                                }  
+                            }
+                        }
+                        if(lustra[numer].kat==60){
+                            if(lustra[numer].strona){
+                                if(laser[k].xs>laser[k].xk && laser[k].ys<laser[k].yk ){
+                                   
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=1024;
+                                    laser[k].yk=p.y;
+                                   
+                                }else if(laser[k].ys-laser[k].yk==0){
+                                    
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                                    
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=1024;
+                                    laser[k].yk=p.y-896;
+                                   
+                                }
+                            } else if(!lustra[numer].strona){
+                                if(laser[k].xs<laser[k].xk && laser[k].ys<laser[k].yk ){
+                                    
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                            
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=0;
+                                    laser[k].yk=p.y;
+                                   
+                                }else if(laser[k].ys-laser[k].yk==0){
+                                    
+                                    lustra[numer].a=liczA(lustra[numer]);
+                                    laser[k].a=liczA(laser[k]);
+                                    lustra[numer].b=liczB(lustra[numer]);
+                                    laser[k].b=liczB(laser[k]);
+                                    Point p=new Point();
+                                    p=liczPunktprzeciecia(lustra[numer],laser[k]);
+                                    k++;
+                                    
+                                    laser[k-1].xk=p.x;
+                                    laser[k-1].yk=p.y;
+                            
+                                    laser[k].xs=p.x;
+                                    laser[k].ys=p.y;
+                                    laser[k].xk=0;
+                                    laser[k].yk=p.y-896;
+                                     
+                                }  
+                            }
+                        }
+                    }
+                }
+            }
     }
     
 
-   protected void paintComponent(Graphics gs){
+    protected void paintComponent(Graphics gs){
         Graphics2D g=(Graphics2D)gs;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.drawImage(Obrazy.bgImage1, 0, 0, null);
@@ -159,74 +651,66 @@ public class PanelwGrze extends JPanel implements MouseListener {
         g.drawImage(Obrazy.bgImage3,650,0,80,240,null);
         g.drawImage(Obrazy.bgImage4,0,500,60,50,null);
         g.setColor(Color.red);
-        g.drawLine(laser[0].xs,laser[0].ys,laser[0].xk,laser[0].yk);
+        
+        if(GStatus.rysuj){
         for(int i=0;i<lustra.length;i++){
             g.setColor(Color.white);
             g.setStroke(new BasicStroke(5));
             if(lustra[i].kat==90){
-                g.drawLine(lustra[i].xs,lustra[i].ys,lustra[i].xk,lustra[i].yk);  
+                g.drawLine((int)lustra[i].xs,(int)lustra[i].ys,(int)lustra[i].xk,(int)lustra[i].yk);  
             }
             if(lustra[i].kat==180){    
-                g.drawLine(lustra[i].xs,lustra[i].ys,lustra[i].xk,lustra[i].yk); 
+                g.drawLine((int)lustra[i].xs,(int)lustra[i].ys,(int)lustra[i].xk,(int)lustra[i].yk); 
             }
             if(lustra[i].kat==60){
-                g.drawLine(lustra[i].xs,lustra[i].ys,lustra[i].xk,lustra[i].yk); 
+                g.drawLine((int)lustra[i].xs,(int)lustra[i].ys,(int)lustra[i].xk,(int)lustra[i].yk); 
             }
             if(lustra[i].kat==45){
-                g.drawLine(lustra[i].xs,lustra[i].ys,lustra[i].xk,lustra[i].yk); 
+                g.drawLine((int)lustra[i].xs,(int)lustra[i].ys,(int)lustra[i].xk,(int)lustra[i].yk); 
             }
             if(lustra[i].kat==225){
-                g.drawLine(lustra[i].xs,lustra[i].ys,lustra[i].xk,lustra[i].yk); 
+                g.drawLine((int)lustra[i].xs,(int)lustra[i].ys,(int)lustra[i].xk,(int)lustra[i].yk); 
             }
-            if(lustra[i].kat==260){
-                g.drawLine(lustra[i].xs,lustra[i].ys,lustra[i].xk,lustra[i].yk); 
+            if(lustra[i].kat==240){
+                g.drawLine((int)lustra[i].xs,(int)lustra[i].ys,(int)lustra[i].xk,(int)lustra[i].yk); 
             }  
         }
-        if(k<6){
-            System.out.println(lustra[k].xs);
-            if(Line2D.linesIntersect(laser[k].xs, laser[k].ys, laser[k].xk, laser[k].yk,
-                    lustra[k].xs, lustra[k].ys, lustra[k].xk, lustra[k].yk)){
-                System.out.println("przecina "+"j= "+k);
-                liczA(lustra[k]);
-                liczA(laser[k]);
-                liczA(lustra[k]);
-                liczA(laser[k]);
-                Point p =new Point();
-                p=liczPunktprzeciecia(lustra[k],laser[k]);
-                System.out.println("x= "+p.x);
-                System.out.println("y= "+p.y);
-                g.drawLine(p.x, p.y, 10*k ,50*k );
-                k++;
+        }   
+                       
+            g.setColor(Color.red);
+            g.setStroke(new BasicStroke(1));
+            g.drawLine((int)laser[0].xs,(int)laser[0].ys, (int)laser[0].xk ,(int)laser[0].yk);
+            if(GStatus.rysuj){
+            for(int i=1;i<7;i++)
+                g.drawLine((int)laser[i].xs,(int)laser[i].ys, (int)laser[i].xk ,(int)laser[i].yk);
             }
-             
-        }
     }
-    public static int liczA(Lustra lu){
-     int a=0;
+    public static double liczA(Lustra lu){
+     double a=0;
      if((lu.xk-lu.xs)!=0)
      a=(lu.yk-lu.ys)/(lu.xk-lu.xs);
      else 
          a=0;
      return a;
  }
-     public static int liczB(Lustra lu){
-     int b=0;
+     public static double liczB(Lustra lu){
+     double b=0;
      if(lu.a!=0)
      b=lu.ys-lu.xs*((lu.yk-lu.ys)/(lu.xk-lu.xs));
      else 
          b=0; 
      return b;
  }
-         public static int liczA(Laser la){
-     int a=0;
+         public static double liczA(Laser la){
+     double a=0;
      if((la.xk-la.xs)!=0)
      a=(la.yk-la.ys)/(la.xk-la.xs);
      else 
          a=0;
      return a;
  }
-     public static int liczB(Laser la){
-     int b=0;
+     public static double liczB(Laser la){
+     double b=0;
      if(la.a!=0)
      b=la.ys-la.xs*((la.yk-la.ys)/(la.xk-la.xs));
      else 
@@ -236,33 +720,33 @@ public class PanelwGrze extends JPanel implements MouseListener {
       public static Point liczPunktprzeciecia(Lustra lu,Laser la){
       Point p = new Point();
       if(lu.a!=0 && la.a!=0){
-          p.x=(la.b-lu.b)/(lu.a-la.a);
-          p.y=(lu.a*((la.b-lu.b)/(lu.a-la.a)))+lu.b;
+          p.x=(int)((la.b-lu.b)/(lu.a-la.a));
+          p.y=(int)((lu.a*((la.b-lu.b)/(lu.a-la.a)))+lu.b);
       }
       else if (lu.a!=0 && (la.ys-la.yk==0)){
-          p.x=(la.yk/lu.a)-lu.b;
-          p.y=la.yk;
+          p.x=(int)((la.yk-lu.b)/lu.a);
+          p.y=(int)la.yk;
         
       }
       else if (la.a!=0 && (lu.ys-lu.yk==0)){
-          p.x=(lu.yk/la.a)-la.b;
-          p.y=lu.yk;
+          p.x=(int)((lu.yk-la.b)/la.a);
+          p.y=(int)lu.yk;
       }
        else if (lu.a!=0 && (la.xs-la.xk==0)){
-          p.x=la.xs;
-          p.y=(la.xk*lu.a)+lu.b;
+          p.x=(int)la.xs;
+          p.y=(int)((la.xk*lu.a)+lu.b);
       }
         else if (la.a!=0 && (lu.xs-lu.xk==0)){
-          p.x=lu.xs;
-          p.y=(lu.xk*la.a)+la.b;
+          p.x=(int)lu.xs;
+          p.y=(int)((lu.xk*la.a)+la.b);
       }
       else if ((lu.xk-lu.xs)==0 && (la.yk-la.ys==0)){
-          p.x=lu.xk;
-          p.y=la.yk;
+          p.x=(int)lu.xk;
+          p.y=(int)la.yk;
       }
       else if ((lu.yk-lu.ys)==0 && (la.xk-la.xs==0)){
-          p.x=la.xk;
-          p.y=lu.yk;
+          p.x=(int)la.xk;
+          p.y=(int)lu.yk;
       }
    
       return p;
@@ -270,6 +754,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
     
     @Override
     public void mousePressed(MouseEvent e) {
+        
     }
 
     @Override

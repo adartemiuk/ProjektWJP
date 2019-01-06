@@ -20,7 +20,12 @@ import javax.swing.JPanel;
     public JButton rozpoczecie;
     public  JLabel czas;
     public JPanel panel1;
-    public JLabel podpis;
+    public JButton lustro90;
+    public JButton lustro180;
+    public JButton lustro45;
+    public JButton lustro225;
+    public JButton lustro60;
+    public JButton lustro240;          
     public JLabel poziom;
     public JPanel panel3;
     public JLabel lustra;
@@ -64,16 +69,79 @@ import javax.swing.JPanel;
     public void dodajpanelinfo(GStatus g,PanelGry p){
       
         panel1 = new JPanel();
-       panel1.setLayout(new FlowLayout(FlowLayout.LEADING,50,5));
+       panel1.setLayout(new FlowLayout(FlowLayout.LEADING,20,1));
         panel1.setBackground(Color.cyan);
         panel1.setBounds(0, 0, 1024, 60);
         add(panel1);
    
-        podpis = new JLabel("Gra Światłem do Celu®");
-        podpis.setFont(new Font ("Noteworthy",Font.BOLD,30));
-         podpis.setBounds(10, 0, 400, 60);
-        panel1.add(podpis);
-       
+        lustro90= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/90.png"));
+          lustro90.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               PanelwGrze.l=1;
+           }  
+        });
+
+
+        panel1.add(lustro90);
+        
+        
+        lustro180= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/180.png"));
+          lustro180.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               PanelwGrze.l=2;
+           }  
+        });
+
+        panel1.add(lustro180);
+        
+        
+        lustro45= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/45.png"));
+          lustro45.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               PanelwGrze.l=3;
+           }  
+        });
+
+
+        panel1.add(lustro45);
+        
+        
+        lustro60= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/60.png"));
+          lustro60.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               PanelwGrze.l=4;
+           }  
+        });
+
+        panel1.add(lustro60);
+        
+        
+        lustro225= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/225.png"));
+          lustro225.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               PanelwGrze.l=5;
+           }  
+        });
+
+        panel1.add(lustro225);
+        
+        
+        lustro240= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/240.png"));
+          lustro240.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               PanelwGrze.l=6;
+           }  
+        });
+
+        panel1.add(lustro240);
+        
+     
         czas = new JLabel("Pozostały czas: "+p.time+"/180");
         czas.setFont(new Font ("Noteworthy",Font.BOLD,30));
          czas.setBounds(410, 0, 300, 60);
