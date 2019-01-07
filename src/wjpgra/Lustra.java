@@ -9,10 +9,10 @@ import javafx.scene.shape.Line;
 
 
 public class Lustra extends Line{
-    public  double xs;
-    public  double xk;
-    public double ys;
-    public double yk;
+    public  double xs=-10;
+    public  double xk=-10;
+    public double ys=-11;
+    public double yk=-11;
     public  int kat;
     public double a;
     public double b;

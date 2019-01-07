@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  public class PanelGry extends JPanel{
      OknoDialogowe dialog = new OknoDialogowe();
     public JButton opcje;
-    public JButton rozpoczecie;
+    public static JButton rozpoczecie = new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/start.png"));
     public  JLabel czas;
     public JPanel panel1;
     public JButton lustro90;
@@ -39,6 +39,7 @@ import javax.swing.JPanel;
         g.resetujpoziom();
         animationloop1(this);
          dodajpanelgry();
+           dodajpanelmenu(g);
         setLayout(null);
        
       
@@ -56,11 +57,11 @@ import javax.swing.JPanel;
                }
                 p.revalidate();
                
-                p.dodajpanelmenu(g);
+              
               p.dodajpanelinfo(g,p);
               
                 if(PanelGry.time==0){
-                    
+                init=false;    
                 
                 }
             }
@@ -158,11 +159,12 @@ import javax.swing.JPanel;
        PanelwGrze pwg = new PanelwGrze();
         pwg.setBounds(0, 60,1024,643);
         add(pwg);
+       
     }
        
     
     public void dodajpanelmenu(GStatus g){
-         panel3 = new JPanel();
+        panel3 = new JPanel();
         panel3.setBackground(Color.cyan);
         panel3.setLayout(null);
         panel3.setBounds(0, 703, 1024, 65);
@@ -191,8 +193,16 @@ import javax.swing.JPanel;
         });
            
         panel3.add(opcje);
-         rozpoczecie = new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/start.png"));
+        
         rozpoczecie.setBounds(600,10,185,45);
+        rozpoczecie.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                init=false;
+                
+             
+            }
+        });
         panel3.add(rozpoczecie);
         add(panel3);
     }    
