@@ -4,6 +4,7 @@ package wjpgra;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -18,6 +19,7 @@ import javax.swing.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import static wjpgra.GStatus.rysuj;
@@ -27,8 +29,7 @@ import static wjpgra.PanelGry.init;
 
 public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
     Timer time;
-    int wspx1;
-    int wspy1;
+    int z=1;
     boolean prawda;
     boolean wygrana;
     boolean przegrana;
@@ -233,7 +234,11 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
                             laser[k].ys=p.y;
                             laser[k].xk=laser[k-1].xs+1024;
                             laser[k].yk=(p.y+przesuniecie)+643;
-                           
+                            
+                            if(sprawdzCzyWygrana()) {
+                            laser[k].xk=900;
+                            laser[k].yk=0;
+                            }
                             
                             
                         } else if(laser[k].xs>laser[k].xk && laser[k].ys>laser[k].yk ){
@@ -736,11 +741,19 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
                 time.restart();
             g.setColor(Color.yellow);
             g.drawLine((int)laser[liczba].xs,(int)laser[liczba].ys,(int)laser[liczba].xk,(int)laser[liczba].yk);
-                            
-                            if(sprawdzCzyWygrana()) System.out.println("wygrales"); 
-                            if(sprawdzCzyPrzegrana()) System.out.println("przegrales");
+
                time.start();
                if(liczba==6) time.stop();
+               
+                            wygrana=sprawdzCzyWygrana();
+                            przegrana=sprawdzCzyPrzegrana();
+                            if(wygrana){
+                            WygranaOkno wo = new WygranaOkno();
+                           
+                            }
+                            if(przegrana){
+                            PrzegranaOkno po = new PrzegranaOkno();
+            }
             }
     }
     public static double liczA(Lustra lu){
@@ -831,20 +844,30 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
 
     }
     public boolean sprawdzCzyWygrana(){
-        boolean wygrana;
+        boolean wygrana=false;
         Rectangle cel = new Rectangle(900,0,50,50);
-        if(cel.intersectsLine(laser[liczba].xs,laser[liczba].ys,laser[liczba].xk,laser[liczba].yk))
-       wygrana=true;
-        else wygrana=false;
+            if(przegrana==false){
+        if(cel.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
+            if(laser[z-1].xs>=900){
+            wygrana=true;
+           
+            }
+        }
+        }
+      
         return wygrana;
     }
     
         public boolean sprawdzCzyPrzegrana(){
-        boolean przegrana;
+        boolean przegrana=false;
         Rectangle przeszkoda1 = new Rectangle(650,0,80,240);
-        if(przeszkoda1.intersectsLine(laser[liczba].xs,laser[liczba].ys,laser[liczba].xk,laser[liczba].yk))
+        if(wygrana==false){
+        if(przeszkoda1.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
         przegrana=true;
-        else przegrana=false;
+     
+        }
+        }
+
         return przegrana;
     }
  
@@ -871,7 +894,9 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
  if(resetuj==false){
    
     if(liczba<6)
-    liczba=liczba+zwieksz;  
+    liczba=liczba+zwieksz; 
+    if(liczba>1)
+        z=liczba;
 
  repaint();
  } 

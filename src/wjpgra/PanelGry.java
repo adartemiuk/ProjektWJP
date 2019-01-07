@@ -76,6 +76,7 @@ import javax.swing.JPanel;
         add(panel1);
    
         lustro90= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/90.png"));
+        lustro90.setSize(10,10);
           lustro90.addActionListener(new ActionListener(){
            @Override
            public void actionPerformed(ActionEvent e) {
