@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
-import java.util.Timer;
+import javax.swing.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,12 +25,16 @@ import static wjpgra.GStatus.rysuj;
 import static wjpgra.PanelGry.init;
 
 
-public class PanelwGrze extends JPanel implements MouseListener {
+public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
+    Timer time;
+    int wspx1;
+    int wspy1;
     boolean prawda;
     boolean wygrana;
     boolean przegrana;
- public static int liczba;
-    
+ public int liczba=0;
+ public int zwieksz=1;
+   static boolean  licz=false;
   public static  boolean resetuj=true;
     public  int x,y;
     int i; 
@@ -42,6 +46,8 @@ public class PanelwGrze extends JPanel implements MouseListener {
     public static Lustra[] lustra;
     public static Laser[] laser;
    public PanelwGrze(){
+       
+       time= new Timer(300,this);
        resetuj();
        addMouseListener(this); 
                 OknoDialogowe.b2.addActionListener(new ActionListener(){
@@ -227,10 +233,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=laser[k-1].xs+1024;
                             laser[k].yk=(p.y+przesuniecie)+643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+                           
                             
                             
                         } else if(laser[k].xs>laser[k].xk && laser[k].ys>laser[k].yk ){
@@ -251,10 +254,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=laser[k-1].xs+1024;
                             laser[k].yk=(p.y+przesuniecie)-643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                         }
                         else if(laser[k].xs<laser[k].xk && laser[k].ys<laser[k].yk ){
                             
@@ -274,10 +274,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=laser[k-1].xs-1024;
                             laser[k].yk=(p.y+przesuniecie)+643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                         } else if(laser[k].xs<laser[k].xk && laser[k].ys>laser[k].yk ){
                             
                             lustra[numer].a=liczA(lustra[numer]);
@@ -296,10 +293,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=laser[k-1].xs-1024;
                             laser[k].yk=(p.y+przesuniecie)-643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                         }
                     }  if(lustra[numer].kat==180){
                         if(laser[k].xs<laser[k].xk && laser[k].ys>laser[k].yk  ){
@@ -319,10 +313,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=(p.x+przesuniecie)+1024;
                             laser[k].yk=laser[k-1].ys+643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                         }else if(laser[k].xs>laser[k].xk && laser[k].ys>laser[k].yk ){
                             
                             lustra[numer].a=liczA(lustra[numer]);
@@ -341,10 +332,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=(p.x+przesuniecie)-1024;
                             laser[k].yk=laser[k-1].ys+643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                         } else if(laser[k].xs<laser[k].xk && laser[k].ys<laser[k].yk ){
                             
                             lustra[numer].a=liczA(lustra[numer]);
@@ -363,10 +351,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=(p.x+przesuniecie)+1024;
                             laser[k].yk=laser[k-1].ys-643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                         }   else if(laser[k].xs>laser[k].xk && laser[k].ys<laser[k].yk ){
                             
                             lustra[numer].a=liczA(lustra[numer]);
@@ -385,10 +370,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                             laser[k].ys=p.y;
                             laser[k].xk=(p.x+przesuniecie)-1024;
                             laser[k].yk=laser[k-1].ys-643;
-                            przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                         }  
                     }
                         if(lustra[numer].kat==45){
@@ -409,10 +391,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=1024;
                                     laser[k].yk=p.y;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }else if(laser[k].ys-laser[k].yk==0){
                                     lustra[numer].a=liczA(lustra[numer]);
                                     laser[k].a=liczA(laser[k]);
@@ -429,10 +408,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=p.x;
                                     laser[k].yk=0;
-                                   przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales"); 
+
                                 }
                             }else if(!lustra[numer].strona){
                                 if(laser[k].xs-laser[k].xk==0){
@@ -451,10 +427,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=0;
                                     laser[k].yk=p.y;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }else if(laser[k].ys-laser[k].yk==0){
                                     lustra[numer].a=liczA(lustra[numer]);
                                     laser[k].a=liczA(laser[k]);
@@ -471,10 +444,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=p.x;
                                     laser[k].yk=0;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }  
                             }
                         }
@@ -496,10 +466,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=1024;
                                     laser[k].yk=p.y;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 } else if(laser[k].ys-laser[k].yk==0){
                                     lustra[numer].a=liczA(lustra[numer]);
                                     laser[k].a=liczA(laser[k]);
@@ -517,10 +484,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=p.x;
                                     laser[k].yk=800;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }
                             } else if(!lustra[numer].strona){
                                 if(laser[k].xs-laser[k].xk==0){
@@ -539,10 +503,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=0;
                                     laser[k].yk=p.y;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }else if(laser[k].ys-laser[k].yk==0){
                                     lustra[numer].a=liczA(lustra[numer]);
                                     laser[k].a=liczA(laser[k]);
@@ -559,10 +520,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=p.x;
                                     laser[k].yk=800;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }  
                             }
                         }
@@ -584,10 +542,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=1024;
                                     laser[k].yk=p.y;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }else if(laser[k].ys-laser[k].yk==0){
                                     lustra[numer].a=liczA(lustra[numer]);
                                     laser[k].a=liczA(laser[k]);
@@ -604,10 +559,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=1024;
                                     laser[k].yk=p.y+896;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }
                             } else if(!lustra[numer].strona){
                                 if(laser[k].xs<laser[k].xk && laser[k].ys>laser[k].yk  ){
@@ -626,10 +578,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=0;
                                     laser[k].yk=p.y;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }else if(laser[k].ys-laser[k].yk==0){
                                     lustra[numer].a=liczA(lustra[numer]);
                                     laser[k].a=liczA(laser[k]);
@@ -646,10 +595,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=0;
                                     laser[k].yk=p.y+896;
-                                   przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }  
                             }
                         }
@@ -672,10 +618,8 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=1024;
                                     laser[k].yk=p.y;
-                                   przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
+
                                 }else if(laser[k].ys-laser[k].yk==0){
                                     
                                     lustra[numer].a=liczA(lustra[numer]);
@@ -694,10 +638,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=1024;
                                     laser[k].yk=p.y-896;
-                                   przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }
                             } else if(!lustra[numer].strona){
                                 if(laser[k].xs<laser[k].xk && laser[k].ys<laser[k].yk ){
@@ -717,10 +658,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=0;
                                     laser[k].yk=p.y;
-                                   przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales");
+
                                 }else if(laser[k].ys-laser[k].yk==0){
                                     
                                     lustra[numer].a=liczA(lustra[numer]);
@@ -738,10 +676,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
                                     laser[k].ys=p.y;
                                     laser[k].xk=0;
                                     laser[k].yk=p.y-896;
-                                    przegrana=sprawdzCzyPrzegrana();
-                            wygrana=sprawdzCzyWygrana();
-                            if(przegrana) System.out.println("przegrales");
-                            if(wygrana) System.out.println("wygrales"); 
+
                                 }  
                             }
                         }
@@ -798,29 +733,15 @@ public class PanelwGrze extends JPanel implements MouseListener {
             }
             
             if(resetuj==false){
-                Timer t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                
- g.setColor(Color.black);
-               PanelwGrze.liczba++;
-   while(PanelwGrze.liczba<7)
- 
-            g.drawLine((int)laser[PanelwGrze.liczba].xs,(int)laser[PanelwGrze.liczba].ys,(int)laser[PanelwGrze.liczba].xk,(int)laser[PanelwGrze.liczba].yk);
-              
-                
-
-                
-            } 
-        }, 1000, 1000);
-           
-  //          while(PanelwGrze.liczba<7){
- 
-     //       g.drawLine((int)laser[PanelwGrze.liczba].xs,(int)laser[PanelwGrze.liczba].ys,(int)laser[PanelwGrze.liczba].xk,(int)laser[PanelwGrze.liczba].yk);
-            
+                time.restart();
+            g.setColor(Color.yellow);
+            g.drawLine((int)laser[liczba].xs,(int)laser[liczba].ys,(int)laser[liczba].xk,(int)laser[liczba].yk);
+                            
+                            if(sprawdzCzyWygrana()) System.out.println("wygrales"); 
+                            if(sprawdzCzyPrzegrana()) System.out.println("przegrales");
+               time.start();
+               if(liczba==6) time.stop();
             }
-    
     }
     public static double liczA(Lustra lu){
      double a=0;
@@ -904,13 +825,15 @@ public class PanelwGrze extends JPanel implements MouseListener {
     rysuj=false;
      i=0;
      k=0;
+     liczba=0;
+     resetuj=true;
 
 
     }
     public boolean sprawdzCzyWygrana(){
         boolean wygrana;
         Rectangle cel = new Rectangle(900,0,50,50);
-        if(cel.intersectsLine(laser[k].xs,laser[k].ys,laser[k].xk,laser[k].yk))
+        if(cel.intersectsLine(laser[liczba].xs,laser[liczba].ys,laser[liczba].xk,laser[liczba].yk))
        wygrana=true;
         else wygrana=false;
         return wygrana;
@@ -919,7 +842,7 @@ public class PanelwGrze extends JPanel implements MouseListener {
         public boolean sprawdzCzyPrzegrana(){
         boolean przegrana;
         Rectangle przeszkoda1 = new Rectangle(650,0,80,240);
-        if(przeszkoda1.intersectsLine(laser[k].xs,laser[k].ys,laser[k].xk,laser[k].yk))
+        if(przeszkoda1.intersectsLine(laser[liczba].xs,laser[liczba].ys,laser[liczba].xk,laser[liczba].yk))
         przegrana=true;
         else przegrana=false;
         return przegrana;
@@ -941,4 +864,22 @@ public class PanelwGrze extends JPanel implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {  
     }   
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       
+ if(resetuj==false){
+   
+    if(liczba<6)
+    liczba=liczba+zwieksz;  
+
+ repaint();
+ } 
+       
+   
+
+     
+    }
+
+
 }
