@@ -4,7 +4,6 @@ package wjpgra;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dialog;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -16,31 +15,31 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import javax.swing.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import static wjpgra.GStatus.rysuj;
 
-import static wjpgra.PanelGry.init;
+
 
 
 public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
+    
     Timer time;
-    int z=1;
-    boolean prawda;
-    boolean wygrana;
-    boolean przegrana;
+  private int z=1;
+    int licznik;
+   private int i; 
+   private int k;
+   public boolean prawda;
+   public static boolean wygrana;
+   public static boolean czyrepaint;
+   public boolean przegrana;
  public int liczba=0;
  public int zwieksz=1;
    static boolean  licz=false;
   public static  boolean resetuj=true;
     public  int x,y;
-    int i; 
-    int k;
-   int przesuniecie;
+
+   public int przesuniecie;
    public static int l;
     int numer;
     GStatus status = new GStatus();
@@ -51,9 +50,13 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
        time= new Timer(300,this);
        resetuj();
        addMouseListener(this); 
+
                 OknoDialogowe.b2.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(GStatus.lvl==1) GStatus.zerujpoziom();
+                 if(GStatus.lvl==2) GStatus.ustawPoziom2();
+                GStatus.liczbaprob++;
                 resetuj();
                repaint();
               
@@ -64,21 +67,14 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
             OknoDialogowe.b3.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetuj();
-             repaint();
+          GStatus.zerujpoziom();
+                  resetuj();
+                repaint();
                
                 
             }
         });
-            PanelGry.rozpoczecie.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-             resetuj=false;
-             repaint();  
-                
-             
-            }
-        });
+
     }
    
     @Override
@@ -86,9 +82,11 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
         
         if(e.getButton()==MouseEvent.BUTTON1){ 
             GStatus.rysuj=true;
-            if(e.getY()<=640 && e.getX()<=5 || e.getX()>=1019 || e.getY()<=10 && e.getX()<=1024 || e.getY()>=630 ){
-                if(i<6){
+            if(e.getY()<=640 && e.getX()<=10 || e.getX()>=1014 || e.getY()<=10 && e.getX()<=1024 || e.getY()>=630 ){
+                if(i<lustra.length){
                     if(l==1){ 
+                        GStatus.lustr--;
+                        licznik++;
                         prawda=true;
                         lustra[i].kat=90;
                         numer=i;
@@ -104,6 +102,8 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
                         i++;
                      } 
                     if(l==2){ 
+                        GStatus.lustr--;
+                        licznik++;
                     prawda=true;
                     lustra[i].kat=180;
                     numer=i;
@@ -119,6 +119,8 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
                     i++;
                 }   
                     if(l==3){
+                        GStatus.lustr--;
+                        licznik++;
                         prawda=true;
                         lustra[i].kat=45;
                         numer=i;
@@ -141,6 +143,8 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
                         i++;   
                     }    
                     if(l==5){
+                        GStatus.lustr--;
+                        licznik++;
                         prawda=true;
                         numer=i;
                         lustra[i].kat=225;
@@ -163,6 +167,8 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
                         i++;
                     }
                     if(l==4){
+                        GStatus.lustr--;
+                        licznik++;
                         prawda=true;
                         numer=i;
                         lustra[i].kat=60;
@@ -186,6 +192,8 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
                     }  
                    
                     if(l==6){
+                        GStatus.lustr--;
+                        licznik++;
                         prawda=true;
                         numer=i;
                         lustra[i].kat=240;
@@ -211,7 +219,7 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
             } 
         }
                 if(prawda){
-            if(k<7){
+            if(k<laser.length){
                 if(Line2D.linesIntersect(laser[k].xs, laser[k].ys, laser[k].xk, laser[k].yk,
                 lustra[numer].xs, lustra[numer].ys, lustra[numer].xk, lustra[numer].yk)){  
                     if(lustra[numer].kat==90){
@@ -695,9 +703,17 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
         
         Graphics2D g=(Graphics2D)gs;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.drawImage(Obrazy.bgImage1, 0, 0, null);
+        g.drawImage(Obrazy.bgImage1, 0, 0, null); 
+        if(GStatus.lvl==1){
         g.drawImage(Obrazy.bgImage2,900,0,50,50,null);
         g.drawImage(Obrazy.bgImage3,650,0,80,240,null);
+        }
+        if(GStatus.lvl==2){
+        g.drawImage(Obrazy.bgImage2,550,50,50,50,null);
+        g.drawImage(Obrazy.bgImage3,450,0,200,50,null);
+        g.drawImage(Obrazy.bgImage3,650,0,50,150,null);
+        g.drawImage(Obrazy.bgImage3,450,100,200,50,null);
+        }
         g.drawImage(Obrazy.bgImage4,0,500,60,50,null);
         g.setColor(Color.red);
         if(GStatus.rysuj){
@@ -725,35 +741,46 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
         }
         }   
      
-
             
             g.setColor(Color.red);
             g.setStroke(new BasicStroke(1));
             if(resetuj)
             g.drawLine((int)laser[0].xs,(int)laser[0].ys, (int)laser[0].xk ,(int)laser[0].yk);
             if(GStatus.rysuj && resetuj){
-            for(int i=0;i<7;i++)
+            for(int i=0;i<laser.length;i++)
                 g.drawLine((int)laser[i].xs,(int)laser[i].ys, (int)laser[i].xk ,(int)laser[i].yk);
             
             }
             
             if(resetuj==false){
+                
                 time.restart();
             g.setColor(Color.yellow);
             g.drawLine((int)laser[liczba].xs,(int)laser[liczba].ys,(int)laser[liczba].xk,(int)laser[liczba].yk);
 
-               time.start();
-               if(liczba==6) time.stop();
+                       time.start();
+               
                
                             wygrana=sprawdzCzyWygrana();
                             przegrana=sprawdzCzyPrzegrana();
                             if(wygrana){
+                                time.stop();
+                                liczPunkty();
                             WygranaOkno wo = new WygranaOkno();
+                            wo.setVisible(true);
                            
                             }
                             if(przegrana){
+                                time.stop();
                             PrzegranaOkno po = new PrzegranaOkno();
+                            po.setVisible(true);
+
+           
+                            
             }
+            }
+            if(czyrepaint){
+                resetuj();
             }
     }
     public static double liczA(Lustra lu){
@@ -823,43 +850,60 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
       return p;
   }
     public  void resetuj(){
-             lustra = new Lustra[6];
-        for(int i=0;i<6;i++){
+             lustra = new Lustra[GStatus.lustr];
+        for(int i=0;i<lustra.length;i++){
             lustra[i]=new Lustra();
         }
-     laser = new Laser[7];
-        for(int i=0;i<7;i++){
+     laser = new Laser[GStatus.lustr+1];
+        for(int i=0;i<laser.length;i++){
             laser[i]=new Laser();
         }
         laser[0].xs=60;
         laser[0].ys=525;
         laser[0].xk=1024;
         laser[0].yk=525;
-    rysuj=false;
      i=0;
      k=0;
+     licznik=0;
      liczba=0;
      resetuj=true;
-
+     czyrepaint=false;
+      rysuj=false;
+     repaint();
+     
 
     }
     public boolean sprawdzCzyWygrana(){
         boolean wygrana=false;
-        Rectangle cel = new Rectangle(900,0,50,50);
+        if(GStatus.lvl==1){
+            Rectangle cel = new Rectangle(900,0,50,50);
             if(przegrana==false){
-        if(cel.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
-            if(laser[z-1].xs>=900){
-            wygrana=true;
-           
+                 if(cel.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
+                    if(laser[z-1].xs>=900){
+                        wygrana=true;
+                    }
+                 }
             }
         }
+        if(GStatus.lvl==2){
+            Rectangle cel = new Rectangle(550,50,50,50);
+            if(przegrana==false){
+                 if(cel.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
+                    if(laser[z-1].xs<=550){
+                        wygrana=true;
+                    }
+                 }
+            }
         }
       
         return wygrana;
     }
-    
+        public static void uruchomWiazke(){
+            resetuj=false;
+        }
         public boolean sprawdzCzyPrzegrana(){
         boolean przegrana=false;
+        if(GStatus.lvl==1){
         Rectangle przeszkoda1 = new Rectangle(650,0,80,240);
         if(wygrana==false){
         if(przeszkoda1.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
@@ -867,9 +911,35 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
      
         }
         }
-
+        }
+        if(GStatus.lvl==2){
+            Rectangle przeszkoda1 = new Rectangle(450,0,200,50);
+            Rectangle przeszkoda2 = new Rectangle(650,0,50,150);
+            Rectangle przeszkoda3 = new Rectangle(450,100,200,50);
+        if(wygrana==false){
+        if(przeszkoda1.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
+        przegrana=true;
+        } else if(przeszkoda2.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
+        przegrana=true;
+        } else if(przeszkoda3.intersectsLine(laser[z-1].xs,laser[z-1].ys,laser[z-1].xk,laser[z-1].yk)){
+        przegrana=true;
+        }
+        }    
+        }    
         return przegrana;
     }
+        public void liczPunkty(){
+           if(GStatus.lustr>0) 
+               GStatus.lustrapkt=GStatus.lustr*20;
+           if(PanelGry.time>0)
+           GStatus.czaspkt=PanelGry.time*2;
+           if(GStatus.lvl==1)
+           GStatus.lvlpkt=100;
+           if(GStatus.lvl==2)
+           GStatus.lvlpkt=200;
+           GStatus.ujemnepkt=-(20*GStatus.liczbaprob);
+           GStatus.points+=GStatus.lvlpkt+GStatus.czaspkt+GStatus.lustrapkt+GStatus.ujemnepkt;
+        }
  
     @Override
     public void mousePressed(MouseEvent e) {
@@ -893,10 +963,13 @@ public class PanelwGrze extends JPanel implements MouseListener,ActionListener {
        
  if(resetuj==false){
    
-    if(liczba<6)
+    if(liczba<=laser.length-1)
     liczba=liczba+zwieksz; 
     if(liczba>1)
         z=liczba;
+    if(liczba==laser.length)
+    liczba--;
+     
 
  repaint();
  } 

@@ -4,6 +4,7 @@ package wjpgra;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Timer;
@@ -15,9 +16,9 @@ import javax.swing.JPanel;
 
 
  public class PanelGry extends JPanel{
+
      OknoDialogowe dialog = new OknoDialogowe();
     public JButton opcje;
-    public static JButton rozpoczecie = new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/start.png"));
     public  JLabel czas;
     public JPanel panel1;
     public JButton lustro90;
@@ -33,17 +34,17 @@ import javax.swing.JPanel;
     GStatus g;
      public static int time;
      public static boolean init;
+     public static boolean go;
     public PanelGry(){
       
         g = new GStatus();
-        g.resetujpoziom();
+        g.zerujpoziom();
         animationloop1(this);
          dodajpanelgry();
-           dodajpanelmenu(g);
+   
         setLayout(null);
        
       
-       
        
     }
            public void animationloop1(PanelGry p){
@@ -55,14 +56,15 @@ import javax.swing.JPanel;
                if(init==true){
                 PanelGry.time--;
                }
-                p.revalidate();
-               
-              
+             
+             revalidate();
               p.dodajpanelinfo(g,p);
-              
+              p.dodajpanelmenu();
+                 
                 if(PanelGry.time==0){
-                init=false;    
-                
+    PanelwGrze.uruchomWiazke();
+                init=false;
+               repaint();
                 }
             }
         }, 1000, 1000);
@@ -70,13 +72,12 @@ import javax.swing.JPanel;
     public void dodajpanelinfo(GStatus g,PanelGry p){
       
         panel1 = new JPanel();
-       panel1.setLayout(new FlowLayout(FlowLayout.LEADING,20,1));
+       panel1.setLayout(new FlowLayout(FlowLayout.LEADING,15,1));
         panel1.setBackground(Color.cyan);
         panel1.setBounds(0, 0, 1024, 60);
         add(panel1);
    
         lustro90= new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/90.png"));
-        lustro90.setSize(10,10);
           lustro90.addActionListener(new ActionListener(){
            @Override
            public void actionPerformed(ActionEvent e) {
@@ -144,12 +145,12 @@ import javax.swing.JPanel;
         panel1.add(lustro240);
         
      
-        czas = new JLabel("Pozostały czas: "+p.time+"/180");
+        czas = new JLabel("Pozostały czas: "+p.time+"/"+GStatus.timelvl);
         czas.setFont(new Font ("Noteworthy",Font.BOLD,30));
          czas.setBounds(410, 0, 300, 60);
         panel1.add(czas);
         
-        poziom = new JLabel("Poziom: "+g.lvl);
+        poziom = new JLabel("Poziom: "+GStatus.lvl);
         poziom.setFont(new Font ("Noteworthy",Font.BOLD,30));
         poziom.setBounds(720, 0, 300, 60);
         panel1.add(poziom);
@@ -157,31 +158,35 @@ import javax.swing.JPanel;
         
     
     public void dodajpanelgry(){
+
        PanelwGrze pwg = new PanelwGrze();
         pwg.setBounds(0, 60,1024,643);
         add(pwg);
-       
+        
+
+
+        
     }
        
     
-    public void dodajpanelmenu(GStatus g){
+    public void dodajpanelmenu(){
         panel3 = new JPanel();
         panel3.setBackground(Color.cyan);
-        panel3.setLayout(null);
+         panel3.setLayout(new FlowLayout(FlowLayout.LEADING,100,2));
         panel3.setBounds(0, 703, 1024, 65);
        
-        lustra = new JLabel("Liczba luster: "+g.lustr);
+        lustra = new JLabel("Liczba luster: "+GStatus.lustr);
         lustra.setFont(new Font ("Noteworthy",Font.BOLD,30));
         lustra.setBounds(50,5,250,55);
         panel3.add(lustra);
         
-        punkty = new JLabel("Punkty: "+g.points);
+        punkty = new JLabel("Punkty: "+GStatus.points);
         punkty.setFont(new Font ("Noteworthy",Font.BOLD,30));
         punkty.setBounds(300,5,150,55);
         panel3.add(punkty);
 
         opcje = new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/menu.png"));
-        opcje.setBounds(800,10,185,45);
+        
         
         opcje.addActionListener(new ActionListener(){
             @Override
@@ -193,21 +198,23 @@ import javax.swing.JPanel;
             }
         });
            
-        panel3.add(opcje);
+       
         
-        rozpoczecie.setBounds(600,10,185,45);
+      JButton rozpoczecie = new JButton(new ImageIcon("/Users/adamartemiuk/Desktop/start.png"));
         rozpoczecie.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+             PanelwGrze.uruchomWiazke();
                 init=false;
-                
+               repaint();
              
             }
         });
         panel3.add(rozpoczecie);
+         panel3.add(opcje);
         add(panel3);
     }    
-    
+
 
   }   
 

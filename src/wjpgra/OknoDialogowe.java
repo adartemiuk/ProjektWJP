@@ -54,7 +54,7 @@ public class OknoDialogowe extends JDialog{
           b2.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                GStatus.resetujpoziom();
+               
          
                   PanelwGrze.resetuj=true;
                 PanelGry.init=true;
@@ -66,7 +66,7 @@ public class OknoDialogowe extends JDialog{
             b3.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                PanelGry.time=GStatus.timelv1;
+                PanelGry.time=GStatus.timelvl;
                
                 PanelwGrze.resetuj=true;
                

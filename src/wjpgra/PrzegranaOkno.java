@@ -22,10 +22,9 @@ import javax.swing.JPanel;
 public class PrzegranaOkno extends JDialog {
    public int gameWidth=1024;
    public int gameHeight=768;
-    
     public int screenWidth=Toolkit.getDefaultToolkit().getScreenSize().width;
     public int screenHeight=Toolkit.getDefaultToolkit().getScreenSize().height;
-    
+   
     public int x=((screenWidth-gameWidth)/2)+312;
     public int y=((screenHeight-gameHeight)/2)+210;
     
@@ -50,19 +49,28 @@ public class PrzegranaOkno extends JDialog {
     napis.setBounds(0, 0, 400, 200);
 
     napis.setForeground(Color.magenta);
-    JButton reset = new JButton("Zagraj jeszcze raz");
+   JButton reset = new JButton("Zagraj jeszcze raz");
     reset.setBounds(100,200,200,50);
     reset.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                GStatus.resetujpoziom();
+                if(GStatus.lvl==1)
+                GStatus.zerujpoziom();
+                else if(GStatus.lvl==2)
+                GStatus.ustawPoziom2();
+                PanelwGrze.czyrepaint=true;
+                GStatus.liczbaprob++;
+                PanelGry.init=true;
 
-                dispose();
+              panel.setVisible(false);
+              dispose();
+              setVisible(false);
+             
                
             } 
         });
     panel.add(reset);
     panel.add(napis);
-     setVisible(true);
+  
     }
 }

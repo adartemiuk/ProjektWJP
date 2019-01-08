@@ -51,27 +51,27 @@ public class WygranaOkno extends JDialog {
     napis.setBounds(0,0, 600, 90);
     napis.setForeground(Color.DARK_GRAY);
     
-       JLabel punkty = new JLabel("Zdobyte punkty za poziom: ",JLabel.CENTER);
+       JLabel punkty = new JLabel("Zdobyte punkty za poziom: "+GStatus.lvlpkt,JLabel.CENTER);
     punkty.setFont(new Font("Noteworthy",Font.BOLD,35));
     punkty.setBounds(0,90, 600, 90);
     punkty.setForeground(Color.DARK_GRAY);
     
-     JLabel czas = new JLabel("Punkty za czas: ",JLabel.CENTER);
+     JLabel czas = new JLabel("Punkty za czas: "+GStatus.czaspkt,JLabel.CENTER);
     czas.setFont(new Font("Noteworthy",Font.BOLD,35));
     czas.setBounds(0,180, 600, 90);
     czas.setForeground(Color.DARK_GRAY);
     
-    JLabel liczbaprob = new JLabel("Liczba prób: ",JLabel.CENTER);
+    JLabel liczbaprob = new JLabel("Liczba powtórzeń: "+GStatus.liczbaprob,JLabel.CENTER);
     liczbaprob.setFont(new Font("Noteworthy",Font.BOLD,35));
     liczbaprob.setBounds(0,270, 600, 90);
     liczbaprob.setForeground(Color.DARK_GRAY);
     
-     JLabel lustra = new JLabel("Punkty za pozostałe lustra: ",JLabel.CENTER);
+     JLabel lustra = new JLabel("Punkty za pozostałe lustra: "+GStatus.lustrapkt,JLabel.CENTER);
     lustra.setFont(new Font("Noteworthy",Font.BOLD,35));
     lustra.setBounds(0,360, 600, 90);
     lustra.setForeground(Color.DARK_GRAY);
     
-     JLabel podstawa = new JLabel("Suma: ",JLabel.CENTER);
+     JLabel podstawa = new JLabel("Suma: "+GStatus.points,JLabel.CENTER);
     podstawa.setFont(new Font("Noteworthy",Font.BOLD,35));
     podstawa.setBounds(0,450, 600, 90);
     podstawa.setForeground(Color.DARK_GRAY);
@@ -81,10 +81,15 @@ public class WygranaOkno extends JDialog {
     dalej.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                GStatus.resetujpoziom();
-
-                dispose();
-               
+              PanelwGrze.czyrepaint=true;
+               PanelGry.init=true;
+              GStatus.ustawPoziom2();
+              panel.setVisible(false);
+              dispose();
+              setVisible(false);
+    
+    
+    
             } 
         });
     panel.add(liczbaprob);
@@ -97,7 +102,7 @@ public class WygranaOkno extends JDialog {
     
     
     
-       setVisible(true);
+     
   
     
     }
