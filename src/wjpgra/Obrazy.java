@@ -3,24 +3,40 @@ package wjpgra;
 
 import java.awt.Image;
 import javax.swing.ImageIcon;
-
+/**
+ * Klasa przechowujaca obrazy uzyte w grze
+ * @author Adam Artemiuk
+ */
 public class Obrazy {
-   public static Image bgImage;
-   public static Image bgImage1;
-    public static Image bgImage2;
-    public static Image bgImage3;
-     public static Image bgImage4;
-     public static Image pion;
-     public static Image poziom;
+    /** Obrazek dla tla menu glownego */
+    public static Image tlomenu;
+    /** Obrazek dla tla panelu gry */
+    public static Image tlogry;
+    /** Obrazek celu na ktory bedzie nakierowany laser*/
+    public static Image cel;
+    /** Obrazek przeszkody poziomej */
+    public static Image przeszkoda1;
+    /** Obrazek przeszkody poziomej */
+    public static Image przeszkoda2;
+    /** Obrazek zrodla lasera */
+    public static Image zrodlo;
+    /** Panel menu glownego */
+    /**
+     * Metoda ładowania obrazow
+     */
+
     public static void loadInitialImages() {
-    bgImage = loadImage("/Users/adamartemiuk/Desktop/bckgnd.png");
-    bgImage1 = loadImage("/Users/adamartemiuk/Desktop/tlo4.png");
-    bgImage2 = loadImage("/Users/adamartemiuk/Desktop/punkt.png");
-    bgImage3 = loadImage("/Users/adamartemiuk/Desktop/absorbujacy.png");
-    bgImage4 = loadImage("/Users/adamartemiuk/Desktop/zrodlo.png");
-    pion = loadImage("/Users/adamartemiuk/Desktop/pion.png");
-    poziom = loadImage("/Users/adamartemiuk/Desktop/poziom.png");
+        tlomenu = loadImage("/Users/adamartemiuk/NetBeansProjects/git/images/bckgnd.png");
+        tlogry = loadImage("/Users/adamartemiuk/NetBeansProjects/git/images/tlo.jpeg");
+        cel = loadImage("/Users/adamartemiuk/NetBeansProjects/git/images/punkt.png");
+        przeszkoda1 = loadImage("/Users/adamartemiuk/NetBeansProjects/git/images/absorbujacy180.png");
+        przeszkoda2 = loadImage("/Users/adamartemiuk/NetBeansProjects/git/images/absorbujacy90.png");
+        zrodlo = loadImage("/Users/adamartemiuk/NetBeansProjects/git/images/zrodlo.png");
     }
+     /**
+     * Metoda pobierania obiektu klasy Image na podstawie ścieżki
+     * dostepu podanej jako String
+     */
     public static Image loadImage(String fileName) {
         return new ImageIcon(fileName).getImage();
     }
